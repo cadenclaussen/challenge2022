@@ -3,34 +3,37 @@ import sys
 
 
 def main():
+    maximum = 100
+    minimum = 1
+
     syslength = len(sys.argv) - 1
-    if syslength == 2:
-        minimum = sys.argv[1]
-        maximum = sys.argv[2]
     if syslength == 1:
         maximum = sys.argv[1]
         minimum = sys.argv[1]
-    if syslength == 0:
-        maximum = 100
-        minimum = 1
+
+    if syslength == 2:
+        minimum = sys.argv[1]
+        maximum = sys.argv[2]
+    
     if syslength > 2:
-        print("Error")
+        print("Usage: p3 2022.py [solution] | [solution-max] [solution-min]")
         sys.exit(2)
+
 
     binary = ["+", "-", "*", "/", "^"]
     unary = ["!", "!!", "^ 1/2", ""]
     numbers = [[0, 2, 2, 2], [2, 0, 2, 2], [2, 2, 0, 2], [2, 2, 2, 0]]
     expressions = []
-    allNumbers = []
+    solutions = []
 
 
     for i in range(int(minimum) - 1, int(maximum)):
         for j in range(1):
-            allNumbers.append(str(i+1))
+            solutions.append(i+1)
 
     expressions = generateExpressions(unary, binary, numbers)
-    sortedPatterns = getResult(expressions)
-    printAll(allNumbers, sortedPatterns)
+    sortedPatterns = solveExpressions(expressions)
+    printEquations(solutions, sortedPatterns)
 
 
 def generateExpressions(unary, binary, numbers):
@@ -46,7 +49,8 @@ def generateExpressions(unary, binary, numbers):
                                     expressions.append({"expression": [number[0], unary[uniaryIndex1], binary[operationIndex1], number[1], unary[uniaryIndex2], binary[operationIndex2], number[2], unary[uniaryIndex3], binary[operationIndex3], number[3], unary[uniaryIndex4]]})
     return expressions
 
-def getResult(expressions):
+
+def solveExpressions(expressions):
     for expression in expressions:
         answer = getAnswer(expression["expression"])
         expression.update({"answer": answer})
@@ -54,12 +58,11 @@ def getResult(expressions):
     return sortedPatterns
 
 
-def printAll(allNumbers, sortedPatterns):
+def printEquations(solutions, sortedPatterns):
     for expression in sortedPatterns:
-        if str(expression["answer"]) in allNumbers:
-            if expression["answer"] >= 1 and expression["answer"] <= 100:
-                allNumbers.remove(str(expression["answer"]))
-                print("((((((" + str(expression["expression"][0]) + " " + str(expression["expression"][1]) + ") " + str(expression["expression"][2]) + " " + str(expression["expression"][3]) + ") " + str(expression["expression"][4]) + ") " + str(expression["expression"][5]) + " " + str(expression["expression"][6]) + ") " + str(expression["expression"][7] + ") " + str(expression["expression"][8]) + " " + str(expression["expression"][9]) + ") " + str(expression["expression"][10]) + ") = " + str(expression["answer"])))
+        if expression["answer"] in solutions:
+            solutions.remove(expression["answer"])
+            print("((((((" + str(expression["expression"][0]) + " " + str(expression["expression"][1]) + ") " + str(expression["expression"][2]) + " " + str(expression["expression"][3]) + ") " + str(expression["expression"][4]) + ") " + str(expression["expression"][5]) + " " + str(expression["expression"][6]) + ") " + str(expression["expression"][7] + ") " + str(expression["expression"][8]) + " " + str(expression["expression"][9]) + ") " + str(expression["expression"][10]) + ") = " + str(expression["answer"])))
 
 
 def calculate(number, operator, number2):
