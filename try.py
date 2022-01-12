@@ -1,22 +1,30 @@
-expression = [ 2, "+", 4, "-", 2, "*", 4]
+def fact(number):
+	total = 1
+	if number == 0:
+		return 0
+	for i in range(int(number) - 1):
+		total = recFact(number - i, total)
+	return total
 
-def calculate(number, operator, number2):
-	if operator == "+":
-		return number + number2
-	if operator == "-":
-		return number - number2
-	if operator == "*":
-		return number * number
-	if operator == "/":
-		if number2 != 0:
-			return number / number2
-		print("Error, cannot divide by zero")
-		return False
+def recFact(number, total):
+	return number * total
 
-def getAnswer(expression):
-	answer = calculate(expression[0], expression[1], expression[2])
-	answer = calculate(answer, expression[3], expression[4])
-	answer = calculate(answer, expression[5], expression[6])
-	return answer
+def doubleFact(x):
+	total = 1
+	if x == 0:
+		return 0
+	if x % 2 == 1:
+		for i in range(1, int(x), 2):
+			total = doubleFactRec(x - i + 1, total)
 
-print(getAnswer(expression))
+	if x % 2 == 0:
+		for i in range(0, int(x), 2):
+			total = doubleFactRec(x - i, total)
+
+	return total
+
+def doubleFactRec(x, total):
+	return x * total
+
+print(fact(4))
+print(doubleFact(0))
