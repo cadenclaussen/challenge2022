@@ -25,7 +25,7 @@ def main():
 
 
     for i in range(int(minimum) - 1, int(maximum)):
-        for j in range(2):
+        for j in range(1):
             allNumbers.append(str(i+1))
 
     expressions = generateExpressions(unary, binary, numbers)
